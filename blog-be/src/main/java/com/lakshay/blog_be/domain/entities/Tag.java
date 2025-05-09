@@ -10,8 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tags")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Builder
@@ -29,10 +29,9 @@ public class Tag {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Tag tag = (Tag) o;
-        return Objects.equals(id, tag.id) && Objects.equals(name, tag.name);
+        Tag category = (Tag) o;
+        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
     }
 
     @Override

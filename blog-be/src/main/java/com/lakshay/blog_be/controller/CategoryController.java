@@ -1,10 +1,10 @@
-package com.lakshay.blog_be.controllers;
+package com.lakshay.blog_be.controller;
 
 import com.lakshay.blog_be.domain.dtos.CategoryDto;
 import com.lakshay.blog_be.domain.dtos.CreateCategoryRequest;
 import com.lakshay.blog_be.domain.entities.Category;
 import com.lakshay.blog_be.mappers.CategoryMapper;
-import com.lakshay.blog_be.services.CategoryService;
+import com.lakshay.blog_be.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/v1/categories")
-@RequiredArgsConstructor //now we don't need to inject dependency by constructors
+@RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -24,17 +24,19 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<CategoryDto>> listCategories() {
-        List<CategoryDto> categories = categoryService.listCategories()
-                .stream().map(category -> categoryMapper.toDto(category))
-                .toList();
-        return ResponseEntity.ok(categories);
+        List<Category> categories = categoryService.listCategories();
+        return ResponseEntity.ok(
+                categories.stream()
+                        .map(category -> categoryMapper.toDto(category))
+                        .toList()
+        );
     }
 
     @PostMapping
     public ResponseEntity<CategoryDto> createCategory(
             @Valid @RequestBody CreateCategoryRequest createCategoryRequest) {
-        Category categoryToCreate = categoryMapper.toEntity(createCategoryRequest);
-        Category savedCategory = categoryService.createCategory(categoryToCreate);
+        Category category = categoryMapper.toEntity(createCategoryRequest);
+        Category savedCategory = categoryService.createCategory(category);
         return new ResponseEntity<>(
                 categoryMapper.toDto(savedCategory),
                 HttpStatus.CREATED
@@ -42,8 +44,8 @@ public class CategoryController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteCategory (@PathVariable UUID id) {
         categoryService.deleteCategory(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }

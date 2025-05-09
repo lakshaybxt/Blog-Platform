@@ -9,9 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
-@RequiredArgsConstructor //now we don't need to inject dependency by constructors
+@RequiredArgsConstructor
 public class BlogUserDetails implements UserDetails {
 
     private final User user;
@@ -49,5 +50,9 @@ public class BlogUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public UUID getId() {
+        return user.getId();
     }
 }

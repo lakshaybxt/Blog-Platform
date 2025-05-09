@@ -1,7 +1,6 @@
 services:
-  # Our PostgreSQL database
+  # Our postgreSQL database
   db:
-    # Using the latest PostgreSQL image
     image: postgres:latest
     ports:
       - "5433:5432"

@@ -10,8 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "categories")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Builder
@@ -29,7 +29,6 @@ public class Category {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
         return Objects.equals(id, category.id) && Objects.equals(name, category.name);

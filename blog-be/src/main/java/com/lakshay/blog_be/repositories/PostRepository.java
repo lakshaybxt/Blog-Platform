@@ -1,4 +1,4 @@
-package com.lakshay.blog_be.repository;
+package com.lakshay.blog_be.repositories;
 
 import com.lakshay.blog_be.domain.entities.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,5 +8,4 @@ import java.util.UUID;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, UUID> {
-
 }

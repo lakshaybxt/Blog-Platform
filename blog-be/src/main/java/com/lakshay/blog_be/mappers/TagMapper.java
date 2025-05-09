@@ -1,30 +1,28 @@
 package com.lakshay.blog_be.mappers;
 
 import com.lakshay.blog_be.domain.PostStatus;
-import com.lakshay.blog_be.domain.dtos.CategoryDto;
-import com.lakshay.blog_be.domain.dtos.CreateCategoryRequest;
-import com.lakshay.blog_be.domain.entities.Category;
+import com.lakshay.blog_be.domain.dtos.TagResponse;
 import com.lakshay.blog_be.domain.entities.Post;
+import com.lakshay.blog_be.domain.entities.Tag;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface CategoryMapper {
+public interface TagMapper {
 
     @Mapping(target = "postCount", source = "posts", qualifiedByName = "calculatePostCount")
-    CategoryDto toDto(Category category);
-
-    Category toEntity(CreateCategoryRequest createCategoryRequest);
+    TagResponse toTagResponse(Tag tag);
 
     @Named("calculatePostCount")
-    default long calculatePostCount(List<Post> posts ) {
-        if(posts == null) return 0;
-        return posts.stream()
-                .filter(post -> PostStatus.PUBLISHED.equals(post.getPostStatus()))
+    default Integer calculatePostCount(Set<Post> posts) {
+        if(null == posts) return 0;
+        return (int) posts.stream()
+                .filter((post -> PostStatus.PUBLISHED.equals(post.getPostStatus())))
                 .count();
     }
 }

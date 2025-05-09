@@ -1,4 +1,4 @@
-package com.lakshay.blog_be.repository;
+package com.lakshay.blog_be.repositories;
 
 import com.lakshay.blog_be.domain.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
 
     @Query("SELECT c FROM Category c LEFT JOIN FETCH c.posts")
-    List<Category> findAllWithPostCounts();
+    List<Category> findAllWithPostCount();
 
     boolean existsByNameIgnoreCase(String name);
 }
