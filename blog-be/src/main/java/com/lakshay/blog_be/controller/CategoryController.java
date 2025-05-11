@@ -2,7 +2,9 @@ package com.lakshay.blog_be.controller;
 
 import com.lakshay.blog_be.domain.dtos.CategoryDto;
 import com.lakshay.blog_be.domain.dtos.CreateCategoryRequest;
+import com.lakshay.blog_be.domain.dtos.UpdateCategoryRequest;
 import com.lakshay.blog_be.domain.entities.Category;
+import com.lakshay.blog_be.domain.entities.User;
 import com.lakshay.blog_be.mappers.CategoryMapper;
 import com.lakshay.blog_be.service.CategoryService;
 import jakarta.validation.Valid;
@@ -41,6 +43,15 @@ public class CategoryController {
                 categoryMapper.toDto(savedCategory),
                 HttpStatus.CREATED
         );
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<CategoryDto> updateCategory(
+            @PathVariable UUID id,
+            @Valid @RequestBody UpdateCategoryRequest updateCategoryRequest
+    ) {
+        Category updatedCategory = categoryService.updateCategory(id, updateCategoryRequest);
+        return ResponseEntity.ok(categoryMapper.toDto(updatedCategory));
     }
 
     @DeleteMapping(path = "/{id}")

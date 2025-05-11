@@ -5,6 +5,7 @@ import com.lakshay.blog_be.service.AuthenticationService;
 import com.lakshay.blog_be.service.impl.BlogUserDetailsService;
 import com.lakshay.blog_be.service.impl.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,8 +31,8 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(AuthenticationService authService) {
-        return new JwtAuthenticationFilter(authService);
+    public JwtAuthenticationFilter jwtAuthenticationFilter(AuthenticationService authService, ApplicationContext context) {
+        return new JwtAuthenticationFilter(authService, context);
     }
 
     @Bean
@@ -40,6 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
         //                        .requestMatchers(HttpMethod.POST,"/api/v1/auth/register").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/posts/drafts").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/categories/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/tags/**").permitAll()

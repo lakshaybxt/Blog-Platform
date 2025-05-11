@@ -31,10 +31,10 @@ public class Post {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PostStatus postStatus;
+    private PostStatus status;
 
     @Column(nullable = false)
-    private int readTime;
+    private int readingTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
@@ -62,12 +62,12 @@ public class Post {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return readTime == post.readTime && Objects.equals(id, post.id) && Objects.equals(title, post.title) && Objects.equals(content, post.content) && postStatus == post.postStatus && Objects.equals(createdAt, post.createdAt) && Objects.equals(updatedAt, post.updatedAt);
+        return readingTime == post.readingTime && Objects.equals(id, post.id) && Objects.equals(title, post.title) && Objects.equals(content, post.content) && status == post.status && Objects.equals(createdAt, post.createdAt) && Objects.equals(updatedAt, post.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, postStatus, readTime, createdAt, updatedAt);
+        return Objects.hash(id, title, content, status, readingTime, createdAt, updatedAt);
     }
 
     @PrePersist

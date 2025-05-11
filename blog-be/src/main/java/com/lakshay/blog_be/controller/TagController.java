@@ -1,7 +1,7 @@
 package com.lakshay.blog_be.controller;
 
 import com.lakshay.blog_be.domain.dtos.CreateTagRequest;
-import com.lakshay.blog_be.domain.dtos.TagResponse;
+import com.lakshay.blog_be.domain.dtos.TagDto;
 import com.lakshay.blog_be.domain.entities.Tag;
 import com.lakshay.blog_be.mappers.TagMapper;
 import com.lakshay.blog_be.service.TagService;
@@ -22,22 +22,22 @@ public class TagController {
     private final TagMapper tagMapper;
 
     @GetMapping
-    public ResponseEntity<List<TagResponse>> getAllTags() {
+    public ResponseEntity<List<TagDto>> getAllTags() {
         List<Tag> tags = tagService.getTags();
-        List<TagResponse> tagResponses = tags.stream()
+        List<TagDto> tagResponse = tags.stream()
                 .map(tag -> tagMapper.toTagResponse(tag))
                 .toList();
 
-        return ResponseEntity.ok(tagResponses);
+        return ResponseEntity.ok(tagResponse);
     }
 
     @PostMapping
-    public ResponseEntity<List<TagResponse>> createTags(@RequestBody CreateTagRequest createTagRequest) {
+    public ResponseEntity<List<TagDto>> createTags(@RequestBody CreateTagRequest createTagRequest) {
         List<Tag> savedTags = tagService.createTags(createTagRequest.getNames());
-        List<TagResponse> cratedTagResponses = savedTags.stream()
+        List<TagDto> cratedTagResponse = savedTags.stream()
                 .map(tag -> tagMapper.toTagResponse(tag)).toList();
 
-        return new ResponseEntity<>(cratedTagResponses, HttpStatus.CREATED);
+        return new ResponseEntity<>(cratedTagResponse, HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")

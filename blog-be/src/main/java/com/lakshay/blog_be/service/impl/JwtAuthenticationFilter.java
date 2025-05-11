@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,24 +22,29 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final AuthenticationService authenticationService;
+    private final ApplicationContext context;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = extractToken(request);
+            String username = authenticationService.extractUsername(token);
 
-            if (token != null) {
-                UserDetails userDetails = authenticationService.validateToken(token);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                SecurityContextHolder.getContext().setAuthentication((authentication));
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = context.getBean(BlogUserDetailsService.class).loadUserByUsername(username);
 
-                // Add userId to request attributes for controller access
-                if (userDetails instanceof BlogUserDetails) {
-                    request.setAttribute("userId", ((BlogUserDetails) userDetails).getId());
+                if(authenticationService.validateToken(token, userDetails)) {
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+                    SecurityContextHolder.getContext().setAuthentication((authentication));
+
+                    // Add userId to request attributes for controller access
+                    if (userDetails instanceof BlogUserDetails) {
+                        request.setAttribute("userId", ((BlogUserDetails) userDetails).getId());
+                    }
                 }
             }
         } catch (Exception e) {

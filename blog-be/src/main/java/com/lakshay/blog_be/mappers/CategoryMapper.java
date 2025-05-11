@@ -1,8 +1,10 @@
 package com.lakshay.blog_be.mappers;
 
 import com.lakshay.blog_be.domain.PostStatus;
+import com.lakshay.blog_be.domain.UpdatePostRequest;
 import com.lakshay.blog_be.domain.dtos.CategoryDto;
 import com.lakshay.blog_be.domain.dtos.CreateCategoryRequest;
+import com.lakshay.blog_be.domain.dtos.UpdatePostRequestDto;
 import com.lakshay.blog_be.domain.entities.Category;
 import com.lakshay.blog_be.domain.entities.Post;
 import org.mapstruct.Mapper;
@@ -24,7 +26,7 @@ public interface CategoryMapper {
     default long calculatePostCount(List<Post> posts ) {
         if(posts == null) return 0;
         return posts.stream()
-                .filter(post -> PostStatus.PUBLISHED.equals(post.getPostStatus()))
+                .filter(post -> PostStatus.PUBLISHED.equals(post.getStatus()))
                 .count();
     }
 }

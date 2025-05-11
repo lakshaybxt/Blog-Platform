@@ -1,5 +1,6 @@
 package com.lakshay.blog_be.service;
 
+import com.lakshay.blog_be.domain.dtos.UpdateCategoryRequest;
 import com.lakshay.blog_be.domain.entities.Category;
 
 import java.util.List;
@@ -10,4 +11,6 @@ public interface CategoryService {
     List<Category> listCategories();
     Category createCategory(Category category);
     void deleteCategory(UUID id);
+    Category getCategoryById(UUID id);
+    Category updateCategory(UUID id, UpdateCategoryRequest updateCategoryRequest);
 }

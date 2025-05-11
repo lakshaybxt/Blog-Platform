@@ -68,18 +68,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public UserDetails validateToken(String token) {
-        String username = extractUsername(token);
-        return userDetailsService.loadUserByUsername(username);
-    }
-
-    @Override
     public User register(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    private String extractUsername(String token) {
+    @Override
+    public String extractUsername(String token) {
         return extractClaims(token, claim -> claim.getSubject());
     }
 
@@ -95,4 +90,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
+    // For validation token we check username and the Expiration Time of token
+    @Override
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    public Date extractExpiration(String token) {
+        return extractClaims(token, claims -> claims.getExpiration());
+    }
+
 }
