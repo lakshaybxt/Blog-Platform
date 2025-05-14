@@ -11,7 +11,7 @@
 	<groupId>com.lakshay</groupId>
 	<artifactId>blog-be</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>blog-practice</name>
+	<name>blog-be</name>
 	<description>A blog application</description>
 	<url/>
 	<licenses>

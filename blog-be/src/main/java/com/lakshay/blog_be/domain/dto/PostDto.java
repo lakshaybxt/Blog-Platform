@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,6 +23,8 @@ public class PostDto {
     private CategoryDto category;
     private Set<TagDto> tags;
     private Integer readingTime;
+    private Integer likeCount;
+    private List<CommentDto> comments;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private PostStatus postStatus;

@@ -37,6 +37,17 @@ public class PostController {
         return ResponseEntity.ok(postDtos);
     }
 
+    @GetMapping(path = "/me")
+    public ResponseEntity<List<PostDto>> getCurrentUserPosts(
+            @RequestAttribute UUID userId,
+            @RequestParam(required = false) UUID categoryId,
+            @RequestParam(required = false) UUID tagId) {
+        User loggedInUser = userService.getUserById(userId);
+        List<Post> userPosts = postService.getUserPosts(loggedInUser, categoryId, tagId);
+        List<PostDto> userPostDtos = userPosts.stream().map(postMapper::toDto).toList();
+        return ResponseEntity.ok(userPostDtos);
+    }
+
     @GetMapping(path = "/drafts")
     public ResponseEntity<List<PostDto>> getDrafts(@RequestAttribute UUID userId) {
         User loggedInUser = userService.getUserById(userId);
