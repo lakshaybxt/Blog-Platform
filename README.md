@@ -51,9 +51,9 @@ This is the backend service for a **multi-user blogging platform**, developed us
 - Currently supports only `USER` role (Admin role coming soon)
 
 ---
-## 📦 Want to read the whole Documentation?
+## 🔍 Everything You Need to Know — Right Here
 
-[Documentation](https://github.com/lakshaybxt)
+[View Documentation](https://github.com/lakshaybxt)
 
 ## 📦 API Examples
 
