@@ -53,7 +53,7 @@ This is the backend service for a **multi-user blogging platform**, developed us
 ---
 ## 🔍 Everything You Need to Know — Right Here
 
-[View Documentation](https://github.com/lakshaybxt)
+[View Documentation](https://western-aluminum-170.notion.site/API-Documentation-Blog-Platform-1f4e44bc5a7f80e6867bdc48c53e4b43)
 
 ## 📦 API Examples
 
